@@ -5,14 +5,15 @@ const toastContainer = document.getElementById('toast-container');
 
 /**
  * Limpa e desenha o mapa de vagas na tela.
- * MODIFICADO: Agora inclui um span com o texto do status (Liberada, Ocupada).
  * @param {Array} vagas - A lista de vagas vinda da API.
  */
 export function renderizarMapa(vagas) {
+    if (!mapaContainer) return; // Não executa se não estiver na página do monitor
+    
     mapaContainer.innerHTML = '';
 
     if (!vagas || vagas.length === 0) {
-        mapaContainer.innerHTML = '<p>Nenhuma vaga encontrada para exibição.</p>';
+        mapaContainer.innerHTML = '<p>Nenhuma vaga encontrada para este estacionamento.</p>';
         return;
     }
 
@@ -21,7 +22,6 @@ export function renderizarMapa(vagas) {
         vagaDiv.className = 'vaga';
         vagaDiv.classList.add(vaga.status, vaga.tipo);
         
-        // --- INÍCIO DA MODIFICAÇÃO ---
         let statusTexto = '';
         switch(vaga.status) {
             case 'livre':
@@ -35,12 +35,10 @@ export function renderizarMapa(vagas) {
                 break;
         }
 
-        // Conteúdo modificado para incluir o status
         vagaDiv.innerHTML = `
             <strong>${vaga.identificador}</strong>
             <span class="vaga-status">${statusTexto}</span>
         `;
-        // --- FIM DA MODIFICAÇÃO ---
 
         if (vaga.status === 'manutencao') {
             vagaDiv.style.cursor = 'not-allowed';
@@ -49,12 +47,6 @@ export function renderizarMapa(vagas) {
     });
 }
 
-/* * O restante do arquivo (showToast, setLoading) permanece 
- * exatamente igual e não precisa ser copiado novamente 
- * se você já o tem. Colei aqui para garantir.
- */
-
-
 /**
  * Exibe uma notificação "toast".
  * @param {string} message - A mensagem.
@@ -62,6 +54,8 @@ export function renderizarMapa(vagas) {
  * @param {number} duration - A duração em ms.
  */
 export function showToast(message, type = 'info', duration = 3000) {
+    if (!toastContainer) return; // Não executa se o container não existir
+
     const toast = document.createElement('div');
     toast.classList.add('toast', `toast-${type}`);
     toast.style.setProperty('--toast-delay', `${duration / 1000}s`);
@@ -85,6 +79,8 @@ export function showToast(message, type = 'info', duration = 3000) {
 
 /** Controla a mensagem de "Carregando..." */
 export function setLoading(isLoading) {
+    if (!loadingMessage || !mapaContainer) return; // Não executa se não estiver na página
+
     if (isLoading) {
         loadingMessage.style.display = 'block';
         mapaContainer.style.opacity = '0.5';

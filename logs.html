@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logs de Registros</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <h1><span class="fas fa-history"></span> Logs de Registros</h1>
+        <a href="dashboard.html">Voltar ao Dashboard</a>
+    </header>
+    <main>
+        <table>
+            <thead>
+                <tr>
+                    <th>Estacionamento</th>
+                    <th>Vaga</th>
+                    <th>Entrada</th>
+                    <th>Saída</th>
+                    <th>Valor (R$)</th>
+                </tr>
+            </thead>
+            <tbody id="logs-table-body">
+            </tbody>
+        </table>
+    </main>
+    <div id="toast-container"></div>
+    <script type="module" src="js/logs.js"></script>
+</body>
+
+</html>

@@ -1,17 +1,17 @@
 <?php
 include 'config.php';
+check_auth(); // Protegido!
 
 $method = $_SERVER['REQUEST_METHOD'];
 $data = json_decode(file_get_contents('php://input'), true);
 
 // -------------------------------------------------------------------------
-// ROTA: POST /api/registros.php (Check-in)
+// ROTA: POST /api/registros.php (Check-in do Sensor)
 // -------------------------------------------------------------------------
 if ($method === 'POST') {
-    
-    // Validação modificada: só precisamos do id_vaga
+
     if (empty($data['id_vaga'])) {
-        http_response_code(400); 
+        http_response_code(400);
         echo json_encode(['status' => 'error', 'message' => 'id_vaga é obrigatório.']);
         exit;
     }
@@ -21,7 +21,7 @@ if ($method === 'POST') {
     $pdo->beginTransaction();
 
     try {
-        // 1. Inserir o novo registro (SQL modificado, sem placa)
+        // 1. Inserir o novo registro (sem placa)
         $sql_insert = "
             INSERT INTO registros 
                 (id_vaga_fk, data_hora_entrada) 
@@ -29,8 +29,8 @@ if ($method === 'POST') {
                 (?, NOW())
         ";
         $stmt_insert = $pdo->prepare($sql_insert);
-        $stmt_insert->execute([$id_vaga]); // Passa apenas o id_vaga
-        
+        $stmt_insert->execute([$id_vaga]);
+
         // 2. Atualizar o status da vaga para 'ocupada'
         $sql_update = "UPDATE vagas SET status = 'ocupada' WHERE id_vaga = ?";
         $stmt_update = $pdo->prepare($sql_update);
@@ -49,11 +49,10 @@ if ($method === 'POST') {
 }
 
 // -------------------------------------------------------------------------
-// ROTA: PUT /api/registros.php (Check-out)
-// (NENHUMA MUDANÇA NECESSÁRIA AQUI. A lógica de preço é baseada em tempo)
+// ROTA: PUT /api/registros.php (Check-out do Sensor)
 // -------------------------------------------------------------------------
 else if ($method === 'PUT') {
-    
+
     if (empty($data['id_registro'])) {
         http_response_code(400);
         echo json_encode(['status' => 'error', 'message' => 'id_registro é obrigatório.']);
@@ -64,6 +63,7 @@ else if ($method === 'PUT') {
     $pdo->beginTransaction();
 
     try {
+        // 1. Buscar o registro
         $sql_select = "SELECT id_vaga_fk, data_hora_entrada FROM registros WHERE id_registro = ?";
         $stmt_select = $pdo->prepare($sql_select);
         $stmt_select->execute([$id_registro]);
@@ -75,17 +75,19 @@ else if ($method === 'PUT') {
 
         $id_vaga = $registro['id_vaga_fk'];
         $data_entrada = new DateTime($registro['data_hora_entrada']);
-        $data_saida = new DateTime('now'); 
+        $data_saida = new DateTime('now');
 
+        // 2. Calcular o valor
         $diferenca_segundos = $data_saida->getTimestamp() - $data_entrada->getTimestamp();
         $horas_cobradas = ceil($diferenca_segundos / 3600);
-        
+
         if ($horas_cobradas <= 0) {
-            $horas_cobradas = 1;
+            $horas_cobradas = 1; // Cobrar no mínimo 1 hora
         }
 
-        $valor_total = $horas_cobradas * PRECO_POR_HORA; 
+        $valor_total = $horas_cobradas * PRECO_POR_HORA;
 
+        // 3. Atualizar o registro com a data de saída e o valor
         $sql_update_reg = "
             UPDATE registros 
             SET data_hora_saida = ?, valor_total = ? 
@@ -94,6 +96,7 @@ else if ($method === 'PUT') {
         $stmt_update_reg = $pdo->prepare($sql_update_reg);
         $stmt_update_reg->execute([$data_saida->format('Y-m-d H:i:s'), $valor_total, $id_registro]);
 
+        // 4. Atualizar o status da vaga de volta para 'livre'
         $sql_update_vaga = "UPDATE vagas SET status = 'livre' WHERE id_vaga = ?";
         $stmt_update_vaga = $pdo->prepare($sql_update_vaga);
         $stmt_update_vaga->execute([$id_vaga]);
@@ -102,7 +105,7 @@ else if ($method === 'PUT') {
 
         http_response_code(200);
         echo json_encode([
-            'status' => 'success', 
+            'status' => 'success',
             'message' => 'Check-out realizado com sucesso!',
             'valor_cobrado' => $valor_total,
             'horas_cobradas' => $horas_cobradas
@@ -114,8 +117,11 @@ else if ($method === 'PUT') {
         echo json_encode(['status' => 'error', 'message' => 'Erro ao fazer check-out: ' . $e->getMessage()]);
     }
 }
+// -------------------------------------------------------------------------
+// Se não for POST nem PUT
+// -------------------------------------------------------------------------
 else {
-    http_response_code(405);
+    http_response_code(405); // Method Not Allowed
     echo json_encode(['status' => 'error', 'message' => 'Método não permitido']);
 }
 ?>
