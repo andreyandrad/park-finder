@@ -12,18 +12,54 @@
 </head>
 
 <body>
-
     <header>
-        <h1><span class="fas fa-car"></span> Carregando...</h1>
-        <p>Visão geral do pátio (via sensores)</p>
+        <a href="dashboard.html" class="logo-container">
+            <i class="fas fa-car"></i>
+            <h1 id="header-nome-estacionamento">Carregando...</h1>
+        </a>
+        <nav class="header-nav">
+            <a href="dashboard.html" class="nav-link">Voltar ao Dashboard</a>
+            <div class="user-menu">
+                <span id="username-display">Carregando...</span>
+                <button class="btn-logout" id="btn-logout">Sair</button>
+            </div>
+        </nav>
     </header>
 
     <main>
+        <div class="kpi-container" id="kpi-container">
+            <div class="kpi-card">
+                <h3>Total de Vagas</h3>
+                <div class="kpi-value" id="kpi-total">0</div>
+            </div>
+            <div class="kpi-card">
+                <h3>Vagas Livres</h3>
+                <div class="kpi-value livre" id="kpi-livre">0</div>
+            </div>
+            <div class="kpi-card">
+                <h3>Vagas Ocupadas</h3>
+                <div class="kpi-value ocupada" id="kpi-ocupada">0</div>
+            </div>
+            <div class="kpi-card">
+                <h3>Em Manutenção</h3>
+                <div class="kpi-value manutencao" id="kpi-manutencao">0</div>
+            </div>
+        </div>
+
         <div class="controles-patio">
             <h2>Mapa de Vagas</h2>
-            <button id="btn-iniciar-simulador" class="btn-simulador">
-                <i class="fas fa-play"></i> Iniciar Simulação de Sensores
+            <button id="btn-simulador" class="btn-simulador inativo">
+                <i class="fas fa-play"></i> Iniciar Simulação
             </button>
+        </div>
+
+        <div class="filter-container" id="filter-container">
+            <button class="filter-btn active" data-filter="all">Todas</button>
+            <button class="filter-btn" data-filter="livre">Livres</button>
+            <button class="filter-btn" data-filter="ocupada">Ocupadas</button>
+            <button class="filter-btn" data-filter="carro">Carros</button>
+            <button class="filter-btn" data-filter="moto">Motos</button>
+            <button class="filter-btn" data-filter="pcd">PCD</button>
         </div>
 
         <div id="loading-message">Carregando vagas...</div>
@@ -40,9 +76,10 @@
     </main>
 
     <footer>
-        <p>&copy; 2025 Monitor de Estacionamento. Todos os direitos reservados.</p>
+        <p>&copy; 2025 Estacionamento PRO. Todos os direitos reservados.</p>
     </footer>
 
+    <div id="modal-placeholder"></div>
     <div id="toast-container"></div>
     <script type="module" src="js/main.js" defer></script>
 </body>

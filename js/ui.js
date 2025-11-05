@@ -1,17 +1,17 @@
-// Seletores de elementos do DOM
-const mapaContainer = document.getElementById('mapa-container');
-const loadingMessage = document.getElementById('loading-message');
+// --- Módulo de UI Compartilhado ---
+
 const toastContainer = document.getElementById('toast-container');
 
 /**
- * Limpa e desenha o mapa de vagas na tela.
+ * Renderiza o mapa de vagas para o MONITOR (index.html).
  * @param {Array} vagas - A lista de vagas vinda da API.
+ * @param {Function} onVagaClickCallback - Função para o clique (toggle manutenção).
  */
-export function renderizarMapa(vagas) {
+export function renderizarMapaMonitor(vagas, onVagaClickCallback) {
+    const mapaContainer = document.getElementById('mapa-container');
     if (!mapaContainer) return; // Não executa se não estiver na página do monitor
     
     mapaContainer.innerHTML = '';
-
     if (!vagas || vagas.length === 0) {
         mapaContainer.innerHTML = '<p>Nenhuma vaga encontrada para este estacionamento.</p>';
         return;
@@ -24,15 +24,9 @@ export function renderizarMapa(vagas) {
         
         let statusTexto = '';
         switch(vaga.status) {
-            case 'livre':
-                statusTexto = 'Liberada';
-                break;
-            case 'ocupada':
-                statusTexto = 'Ocupada';
-                break;
-            case 'manutencao':
-                statusTexto = 'Manutenção';
-                break;
+            case 'livre': statusTexto = 'Liberada'; break;
+            case 'ocupada': statusTexto = 'Ocupada'; break;
+            case 'manutencao': statusTexto = 'Manutenção'; break;
         }
 
         vagaDiv.innerHTML = `
@@ -40,18 +34,18 @@ export function renderizarMapa(vagas) {
             <span class="vaga-status">${statusTexto}</span>
         `;
 
-        if (vaga.status === 'manutencao') {
-            vagaDiv.style.cursor = 'not-allowed';
-        }
+        // --- INÍCIO DA MUDANÇA ---
+        // Agora, TODAS as vagas (incluindo manutenção) recebem o listener
+        // A lógica de o que fazer (ativar/desativar) será tratada no main.js
+        vagaDiv.addEventListener('click', () => onVagaClickCallback(vaga));
+        // --- FIM DA MUDANÇA ---
+
         mapaContainer.appendChild(vagaDiv);
     });
 }
 
 /**
  * Exibe uma notificação "toast".
- * @param {string} message - A mensagem.
- * @param {'success' | 'error' | 'info'} type - O tipo.
- * @param {number} duration - A duração em ms.
  */
 export function showToast(message, type = 'info', duration = 3000) {
     if (!toastContainer) return; // Não executa se o container não existir
@@ -79,7 +73,9 @@ export function showToast(message, type = 'info', duration = 3000) {
 
 /** Controla a mensagem de "Carregando..." */
 export function setLoading(isLoading) {
-    if (!loadingMessage || !mapaContainer) return; // Não executa se não estiver na página
+    const loadingMessage = document.getElementById('loading-message');
+    const mapaContainer = document.getElementById('mapa-container');
+    if (!loadingMessage || !mapaContainer) return; 
 
     if (isLoading) {
         loadingMessage.style.display = 'block';

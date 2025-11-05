@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Estacionamento</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <a href="dashboard.html" class="logo-container">
+            <i class="fas fa-car"></i>
+            <h1>Estacionamento PRO</h1>
+        </a>
+        <nav class="header-nav">
+            <a href="dashboard.html" class="nav-link">Voltar ao Dashboard</a>
+            <div class="user-menu">
+                <span id="username-display">Carregando...</span>
+                <button class="btn-logout" id="btn-logout">Sair</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <h2 id="main-title">Carregando...</h2>
+
+        <div class="form-container">
+            <h3>Detalhes do Estacionamento</h3>
+            <form id="form-editar-estacionamento">
+                <div class="form-group">
+                    <label for="nome">Nome do Estacionamento</label>
+                    <input type="text" id="nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="endereco">Endereço</label>
+                    <input type="text" id="endereco">
+                </div>
+                <button type="submit" class="btn-submit">Salvar Alterações</button>
+                <div id="form-feedback"></div>
+            </form>
+        </div>
+
+        <div class="form-container">
+            <h3>Gerenciar Vagas</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Identificador</th>
+                        <th>Tipo</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="vagas-table-body">
+                </tbody>
+            </table>
+
+            <h4 style="margin-top: 2rem;">Adicionar Nova Vaga</h4>
+            <form id="form-adicionar-vaga">
+                <div class="form-group">
+                    <label for="vaga-tipo">Tipo</label>
+                    <select id="vaga-tipo" required>
+                        <option value="carro">Carro</option>
+                        <option value="moto">Moto</option>
+                        <option value="pcd">PCD</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="vaga-identificador">Identificador</label>
+                    <div class="input-with-button">
+                        <input type="text" id="vaga-identificador" required>
+                        <button type="button" class="btn-suggest" id="suggest-spot-id">Sugerir</button>
+                    </div>
+                </div>
+                <button type="submit" class="btn-submit">Adicionar Vaga</button>
+                <div id="vaga-form-feedback"></div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Estacionamento PRO. Todos os direitos reservados.</p>
+    </footer>
+
+    <div id="modal-placeholder"></div>
+    <div id="toast-container"></div>
+    <script type="module" src="js/editar-estacionamento.js"></script>
+</body>
+
+</html>

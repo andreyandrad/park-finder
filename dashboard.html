@@ -11,22 +11,62 @@
 
 <body>
     <header>
-        <h1><span class="fas fa-th-large"></span> Dashboard</h1>
-        <p>Gerencie seus estacionamentos</p>
-        <a href="logs.html" style="right: 100px;">Ver Logs</a>
-        <a href="#" id="btn-logout" style="right: 20px;">Sair</a>
+        <a href="dashboard.html" class="logo-container">
+            <i class="fas fa-car"></i>
+            <h1>Estacionamento PRO</h1>
+        </a>
+        <nav class="header-nav">
+            <a href="logs.html" class="nav-link">Logs do Sistema</a>
+            <a href="usuarios.html" class="nav-link" id="nav-gerenciar-usuarios" style="display: none;">Gerenciar
+                Usuários</a>
+            <div class="user-menu">
+                <span id="username-display">Carregando...</span>
+                <button class="btn-logout" id="btn-logout">Sair</button>
+            </div>
+        </nav>
     </header>
 
     <main>
-        <h2>Meus Estacionamentos</h2>
-        <div id="lista-estacionamentos" class="grid-estacionamentos">
-            <a href="criar-estacionamento.html" class="card-estacionamento card-add">
+        <div class="page-controls">
+            <h2>Meus Estacionamentos</h2>
+            <input type="text" id="search-bar" class="search-bar" placeholder="Buscar estacionamento...">
+        </div>
+
+        <div id="dashboard-skeleton" class="skeleton-grid">
+            <div class="skeleton-card">
+                <div class="skeleton-line h-1-5 w-75"></div>
+                <div class="skeleton-line w-50 mt-1"></div>
+                <div class="skeleton-line w-75 mt-2"></div>
+                <div class="skeleton-line w-100 mt-1" style="height: 8px;"></div>
+            </div>
+            <div class="skeleton-card">
+                <div class="skeleton-line h-1-5 w-75"></div>
+                <div class="skeleton-line w-50 mt-1"></div>
+                <div class="skeleton-line w-75 mt-2"></div>
+                <div class="skeleton-line w-100 mt-1" style="height: 8px;"></div>
+            </div>
+        </div>
+
+        <div id="lista-estacionamentos" class="grid-estacionamentos" style="display: none;">
+            <a href="criar-estacionamento.html" class="card-estacionamento card-add" id="card-add-estacionamento"
+                style="display: none;">
                 <i class="fas fa-plus"></i>
                 <strong>Adicionar Novo</strong>
             </a>
         </div>
+
+        <div id="empty-state" class="empty-state" style="display: none;">
+            <i class="fas fa-parking"></i>
+            <h3>Nenhum estacionamento encontrado</h3>
+            <p id="empty-state-message">Parece que você ainda não tem estacionamentos. Comece adicionando um novo.</p>
+        </div>
     </main>
 
+    <footer>
+        <p>&copy; 2025 Estacionamento PRO. Todos os direitos reservados.</p>
+    </footer>
+
+    <div id="modal-placeholder"></div>
     <div id="toast-container"></div>
     <script type="module" src="js/dashboard.js"></script>
 </body>

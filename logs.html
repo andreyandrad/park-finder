@@ -11,10 +11,21 @@
 
 <body>
     <header>
-        <h1><span class="fas fa-history"></span> Logs de Registros</h1>
-        <a href="dashboard.html">Voltar ao Dashboard</a>
+        <a href="dashboard.html" class="logo-container">
+            <i class="fas fa-car"></i>
+            <h1>Estacionamento PRO</h1>
+        </a>
+        <nav class="header-nav">
+            <a href="dashboard.html" class="nav-link">Voltar ao Dashboard</a>
+            <div class="user-menu">
+                <span id="username-display">Carregando...</span>
+                <button class="btn-logout" id="btn-logout">Sair</button>
+            </div>
+        </nav>
     </header>
+
     <main>
+        <h2>Logs do Sistema</h2>
         <table>
             <thead>
                 <tr>
@@ -22,13 +33,24 @@
                     <th>Vaga</th>
                     <th>Entrada</th>
                     <th>Saída</th>
-                    <th>Valor (R$)</th>
                 </tr>
             </thead>
             <tbody id="logs-table-body">
             </tbody>
         </table>
+
+        <div id="empty-state" class="empty-state" style="display: none;">
+            <i class="fas fa-history"></i>
+            <h3>Nenhum log encontrado</h3>
+            <p>Nenhuma movimentação foi registrada no sistema ainda.</p>
+        </div>
     </main>
+
+    <footer>
+        <p>&copy; 2025 Estacionamento PRO. Todos os direitos reservados.</p>
+    </footer>
+
+    <div id="modal-placeholder"></div>
     <div id="toast-container"></div>
     <script type="module" src="js/logs.js"></script>
 </body>

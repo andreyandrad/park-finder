@@ -3,13 +3,10 @@ include 'config.php';
 check_auth(); // Protegido!
 
 try {
-    // Pega o ID do estacionamento (opcional, para filtrar)
-    $id_est = $_GET['id_est'] ?? null;
     $params = [];
-
     $sql = "
         SELECT 
-            r.id_registro, r.data_hora_entrada, r.data_hora_saida, r.valor_total,
+            r.id_registro, r.data_hora_entrada, r.data_hora_saida,
             v.identificador AS vaga_identificador,
             e.nome AS estacionamento_nome
         FROM 
@@ -20,12 +17,16 @@ try {
             estacionamentos e ON v.id_estacionamento_fk = e.id_estacionamento
     ";
 
-    if ($id_est) {
-        $sql .= " WHERE e.id_estacionamento = ? ";
-        $params[] = $id_est;
+    if (!is_superadmin()) {
+        // Se não for superadmin, filtra pelos estacionamentos do gerente
+        $sql .= "
+            JOIN gerentes_estacionamentos ge ON e.id_estacionamento = ge.id_estacionamento_fk
+            WHERE ge.id_usuario_fk = ?
+        ";
+        $params[] = get_user_id();
     }
 
-    $sql .= " ORDER BY r.data_hora_entrada DESC LIMIT 200"; // Limita aos últimos 200 logs
+    $sql .= " ORDER BY r.data_hora_entrada DESC LIMIT 200";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);

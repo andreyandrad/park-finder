@@ -1,5 +1,16 @@
-// Importa apenas a função que precisa
 import { showToast } from './ui.js';
+import { initializeAuthUI, getUserRole } from './auth.js';
+import * as api from './api.js';
+
+document.addEventListener('DOMContentLoaded', () => {
+    initializeAuthUI();
+    // Proteção de Rota: Apenas Super Admins podem ver esta página
+    if (getUserRole() !== 'superadmin') {
+        alert('Acesso negado. Apenas Super Admins podem criar estacionamentos.');
+        window.location.href = 'dashboard.html';
+        return;
+    }
+});
 
 document.getElementById('form-criar-estacionamento').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -23,23 +34,7 @@ document.getElementById('form-criar-estacionamento').addEventListener('submit', 
     }
 
     try {
-        const response = await fetch('api/estacionamentos.php', {
-            method: 'POST',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-        
-        if (response.status === 401) {
-            window.location.href = 'login.html';
-            return;
-        }
-
-        const data = await response.json();
-        if (!response.ok) {
-            throw new Error(data.message);
-        }
-
+        await api.estacionamentos.create(payload);
         showToast('Estacionamento criado com sucesso!', 'success');
         feedback.textContent = 'Sucesso! Redirecionando...';
         

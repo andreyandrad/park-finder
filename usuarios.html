@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Usuários</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <a href="dashboard.html" class="logo-container">
+            <i class="fas fa-car"></i>
+            <h1>Estacionamento PRO</h1>
+        </a>
+        <nav class="header-nav">
+            <a href="dashboard.html" class="nav-link">Voltar ao Dashboard</a>
+            <div class="user-menu">
+                <span id="username-display">Carregando...</span>
+                <button class="btn-logout" id="btn-logout">Sair</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="page-controls">
+            <h2>Gerenciar Usuários</h2>
+            <a href="criar-usuario.html" class="btn-primary">
+                <i class="fas fa-plus"></i> Adicionar Usuário
+            </a>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Usuário</th>
+                    <th>Papel</th>
+                    <th>Estacionamentos Associados</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="usuarios-table-body">
+            </tbody>
+        </table>
+
+        <div id="empty-state" class="empty-state" style="display: none;">
+            <i class="fas fa-users"></i>
+            <h3>Nenhum usuário encontrado</h3>
+            <p>Você ainda não criou nenhum usuário. Comece adicionando um.</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Estacionamento PRO. Todos os direitos reservados.</p>
+    </footer>
+
+    <div id="modal-placeholder"></div>
+    <div id="toast-container"></div>
+    <script type="module" src="js/usuarios.js"></script>
+</body>
+
+</html>

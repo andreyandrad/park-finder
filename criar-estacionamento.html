@@ -11,10 +11,21 @@
 
 <body>
     <header>
-        <h1><span class="fas fa-plus"></span> Novo Estacionamento</h1>
-        <a href="dashboard.html">Voltar</a>
+        <a href="dashboard.html" class="logo-container">
+            <i class="fas fa-car"></i>
+            <h1>Estacionamento PRO</h1>
+        </a>
+        <nav class="header-nav">
+            <a href="dashboard.html" class="nav-link">Voltar ao Dashboard</a>
+            <div class="user-menu">
+                <span id="username-display">Carregando...</span>
+                <button class="btn-logout" id="btn-logout">Sair</button>
+            </div>
+        </nav>
     </header>
+
     <main>
+        <h2>Criar Novo Estacionamento</h2>
         <div class="form-container">
             <form id="form-criar-estacionamento">
                 <div class="form-group">
@@ -25,7 +36,7 @@
                     <label for="endereco">Endereço (Opcional)</label>
                     <input type="text" id="endereco">
                 </div>
-                <h3>Definir Vagas</h3>
+                <h3>Definir Vagas Iniciais</h3>
                 <div class="form-group">
                     <label for="qtd_carro">Quantidade de Vagas de Carro</label>
                     <input type="number" id="qtd_carro" value="0" min="0" required>
@@ -43,6 +54,11 @@
             </form>
         </div>
     </main>
+
+    <footer>
+        <p>&copy; 2025 Estacionamento PRO. Todos os direitos reservados.</p>
+    </footer>
+
     <div id="toast-container"></div>
     <script type="module" src="js/criar.js"></script>
 </body>

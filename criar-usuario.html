@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Usuário</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <a href="dashboard.html" class="logo-container">
+            <i class="fas fa-car"></i>
+            <h1>Estacionamento PRO</h1>
+        </a>
+        <nav class="header-nav">
+            <a href="usuarios.html" class="nav-link">Voltar para Usuários</a>
+            <div class="user-menu">
+                <span id="username-display">Carregando...</span>
+                <button class="btn-logout" id="btn-logout">Sair</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <h2 id="main-title">Criar Novo Usuário</h2>
+        <div class="form-container">
+            <form id="form-usuario">
+                <input type="hidden" id="id_usuario">
+                <div class="form-group">
+                    <label for="username">Nome de Usuário</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group password-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password">
+                    <i class="fas fa-eye" id="password-toggle"></i>
+                </div>
+                <div class="form-group">
+                    <label for="role">Papel</label>
+                    <select id="role" required>
+                        <option value="gerente">Gerente</option>
+                        <option value="superadmin">Super Admin</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="estacionamentos-container" style="display: none;">
+                    <label>Associar Estacionamentos (para Gerentes)</label>
+                    <div id="estacionamentos-checkbox-list" class="checkbox-list">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit">Salvar Usuário</button>
+                <div id="form-feedback"></div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Estacionamento PRO. Todos os direitos reservados.</p>
+    </footer>
+
+    <div id="modal-placeholder"></div>
+    <div id="toast-container"></div>
+    <script type="module" src="js/criar-usuario.js"></script>
+</body>
+
+</html>

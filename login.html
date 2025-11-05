@@ -6,9 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Gerenciador de Estacionamentos</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body class="login-body">
+
+    <header>
+        <a href="login.html" class="logo-container">
+            <i class="fas fa-car"></i>
+            <h1>Estacionamento PRO</h1>
+        </a>
+    </header>
 
     <div class="login-container">
         <h1>Login</h1>
@@ -17,15 +25,21 @@
                 <label for="username">Usuário:</label>
                 <input type="text" id="username" name="username" required>
             </div>
-            <div class="form-group">
+            <div class="form-group password-group">
                 <label for="password">Senha:</label>
                 <input type="password" id="password" name="password" required>
+                <i class="fas fa-eye" id="password-toggle"></i>
             </div>
             <button type="submit" class="btn-login">Entrar</button>
             <div id="login-feedback"></div>
         </form>
     </div>
 
+    <footer>
+        <p>&copy; 2025 Estacionamento PRO. Todos os direitos reservados.</p>
+    </footer>
+
+    <div id="modal-placeholder"></div>
     <script type="module" src="js/login.js"></script>
 </body>
 
